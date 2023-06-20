@@ -5,11 +5,11 @@ import (
    "os" // untuk pilihan keluar
 )
 
-const capasityArray int = 1000 // kapasitas array adalah 1000
+const capasityArray int = 1024 // kapasitas array adalah 1024
 
 type datasparePart struct {
    nama   string
-   kode   string
+   kode   int
    jumlah int
    harga  int
 }
@@ -23,7 +23,7 @@ type tabData struct {
 
 type dataPelanggan struct {
    nama  string
-   kode  string
+   kode  int
    waktu string
 }
 
@@ -33,15 +33,30 @@ type riwayatTransaksi struct {
    kodeSparepart int
 }
 
+func tambahDataPelanggan(data *tabData) {
+   fmt.Println("♡ ´･ᴗ･ `♡  (っ◕‿◕)っ (っ◕‿◕)っ (っ◕‿◕)っ (っ◕‿◕)っ  ♡ ´･ᴗ･ `♡")
+   fmt.Print("Masukkan nama pelanggan: ")
+   fmt.Scan(&data.pelanggan[data.total].nama)
+   fmt.Print("Masukkan kode pelanggan: ")
+   fmt.Scan(&data.pelanggan[data.total].kode)
+   fmt.Print("masukkan kode sparepart: ")
+   fmt.Scan(&data.sparePart[data.total].kode)
+   fmt.Print("Masukkan Bulan: ")
+   fmt.Scan(&data.pelanggan[data.total].waktu)
+   fmt.Println("")
+   data.total++
+   fmt.Println("♡ ´･ᴗ･ `♡  (っ◕‿◕)っ (っ◕‿◕)っ (っ◕‿◕)っ (っ◕‿◕)っ  ♡ ´･ᴗ･ `♡")
+}
+
 func tambahDataSparepart(data *tabData) {
    fmt.Println("♡ ´･ᴗ･ `♡  (っ◕‿◕)っ (っ◕‿◕)っ (っ◕‿◕)っ (っ◕‿◕)っ  ♡ ´･ᴗ･ `♡")
-   fmt.Print("Masukkan kode barang: ")
+   fmt.Print("Masukkan kode sparepart: ")
    fmt.Scan(&data.sparePart[data.total].kode)
-   fmt.Print("Masukkan nama barang: ")
+   fmt.Print("Masukkan nama sparepart: ")
    fmt.Scan(&data.sparePart[data.total].nama)
-   fmt.Print("Masukkan jumlah barang: ")
+   fmt.Print("Masukkan jumlah sparepart: ")
    fmt.Scan(&data.sparePart[data.total].jumlah)
-   fmt.Print("Masukkan harga barang per item: ")
+   fmt.Print("Masukkan harga sparepart per item: ")
    fmt.Scan(&data.sparePart[data.total].harga)
    fmt.Println("")
    data.total++
@@ -50,28 +65,23 @@ func tambahDataSparepart(data *tabData) {
    fmt.Println("♡ ´･ᴗ･ `♡  (っ◕‿◕)っ (っ◕‿◕)っ (っ◕‿◕)っ (っ◕‿◕)っ  ♡ ´･ᴗ･ `♡")
 }
 
-func tambahDataPelanggan(data *tabData) {
-   fmt.Println("♡ ´･ᴗ･ `♡  (っ◕‿◕)っ (っ◕‿◕)っ (っ◕‿◕)っ (っ◕‿◕)っ  ♡ ´･ᴗ･ `♡")
-   fmt.Print("Masukkan nama pelanggan: ")
-   fmt.Scan(&data.pelanggan[data.total].nama)
-   fmt.Print("Masukkan kode pelanggan: ")
-   fmt.Scan(&data.pelanggan[data.total].kode)
-   fmt.Print("Masukkan Waktu: ")
-   fmt.Scan(&data.pelanggan[data.total].waktu)
-   fmt.Println("")
-   data.total++
-   fmt.Println("♡ ´･ᴗ･ `♡  (っ◕‿◕)っ (っ◕‿◕)っ (っ◕‿◕)っ (っ◕‿◕)っ  ♡ ´･ᴗ･ `♡")
-}
-
 func tambahDataTransaksi(data *tabData) {
-   fmt.Print("Masukkan kode transaaksi: ")
+   fmt.Println("♡ ´･ᴗ･ `♡  (っ◕‿◕)っ (っ◕‿◕)っ (っ◕‿◕)っ (っ◕‿◕)っ  ♡ ´･ᴗ･ `♡")
+   fmt.Print("Masukkan kode transaksi: ")
    fmt.Scan(&data.transaksi[data.total].kodeTransaksi)
-   fmt.Print("Masukkan jumlah spare-part: ")
+   fmt.Print("Masukkan kode pelanggan: ")
    fmt.Scan(&data.transaksi[data.total].kodePelanggan)
-   fmt.Print("Masukkan harga spare-part per item: ")
-   fmt.Scan(&data.transaksi[data.total].kodeSparepart)
+   fmt.Print("Masukkan Spare-part: ")
+   fmt.Scan(&data.sparePart[data.total].nama)
+   fmt.Print("Masukkan jumlah spare-part: ")
+   fmt.Scan(&data.sparePart[data.total].jumlah)
+   fmt.Print("Masukkan harga sparepart per item: ")
+   fmt.Scan(&data.sparePart[data.total].harga)
    fmt.Println("")
    data.total++
+
+   updateHargaData(data)
+   fmt.Println("♡ ´･ᴗ･ `♡  (っ◕‿◕)っ (っ◕‿◕)っ (っ◕‿◕)っ (っ◕‿◕)っ  ♡ ´･ᴗ･ `♡")
 }
 
 func updateHargaData(data *tabData) {
@@ -83,11 +93,11 @@ func updateHargaData(data *tabData) {
 func tampilkanDataSparepart(data *tabData) {
    fmt.Println("♡ ´･ᴗ･ `♡  (っ◕‿◕)っ (っ◕‿◕)っ (っ◕‿◕)っ (っ◕‿◕)っ  ♡ ´･ᴗ･ `♡ ")
    for i := 0; i < data.total; i++ {
-      fmt.Println("Data barang ke:", i+1)
-      fmt.Println("kode barang:", data.sparePart[i].kode)
-      fmt.Println("Nama barang:", data.sparePart[i].nama)
-      fmt.Println("Jumlah barang:", data.sparePart[i].jumlah)
-      fmt.Println("harga barang total:", data.sparePart[i].harga)
+      fmt.Println("Data Spare-part ke:", i+1)
+      fmt.Println("kode sparepart:", data.sparePart[i].kode)
+      fmt.Println("Nama sparepart:", data.sparePart[i].nama)
+      fmt.Println("Jumlah sparepart:", data.sparePart[i].jumlah)
+      fmt.Println("harga sparepart total:", data.sparePart[i].harga)
       fmt.Println("")
    }
    fmt.Println("♡ ´･ᴗ･ `♡  (っ◕‿◕)っ (っ◕‿◕)っ (っ◕‿◕)っ (っ◕‿◕)っ  ♡ ´･ᴗ･ `♡ ")
@@ -96,10 +106,11 @@ func tampilkanDataSparepart(data *tabData) {
 func tampilkanDataPelanggan(data *tabData) {
    fmt.Println("♡ ´･ᴗ･ `♡  (っ◕‿◕)っ (っ◕‿◕)っ (っ◕‿◕)っ (っ◕‿◕)っ  ♡ ´･ᴗ･ `♡ ")
    for i := 0; i < data.total; i++ {
-      fmt.Println("Data barang ke:", i+1)
+      fmt.Println("Data Pelanggan ke:", i+1)
       fmt.Println("kode pelanggan:", data.pelanggan[i].kode)
       fmt.Println("Nama Pelanggan:", data.pelanggan[i].nama)
-      fmt.Println("waktu:", data.pelanggan[i].waktu)
+      fmt.Println("Sparepart yang dibeli:", data.sparePart[i].kode)
+      fmt.Println("Bulan:", data.pelanggan[i].waktu)
       fmt.Println("")
    }
    fmt.Println("♡ ´･ᴗ･ `♡  (っ◕‿◕)っ (っ◕‿◕)っ (っ◕‿◕)っ (っ◕‿◕)っ  ♡ ´･ᴗ･ `♡ ")
@@ -108,16 +119,17 @@ func tampilkanDataPelanggan(data *tabData) {
 func tampilkanDataTransaksi(data *tabData) {
    fmt.Println("♡ ´･ᴗ･ `♡  (っ◕‿◕)っ (っ◕‿◕)っ (っ◕‿◕)っ (っ◕‿◕)っ  ♡ ´･ᴗ･ `♡ ")
    for i := 0; i < data.total; i++ {
-      fmt.Println("Data barang ke:", i+1)
+      fmt.Println("Data Transaksi ke:", i+1)
       fmt.Println("Kode Transaksi:", data.transaksi[i].kodeTransaksi)
       fmt.Println("Kode Pelanggan:", data.transaksi[i].kodePelanggan)
-      fmt.Println("Kode Spare-part:", data.transaksi[i].kodeSparepart)
+      fmt.Println("Spare-part:", data.sparePart[i].nama)
+      fmt.Println("Total harga:", data.sparePart[i].harga)
       fmt.Println("")
    }
    fmt.Println("♡ ´･ᴗ･ `♡  (っ◕‿◕)っ (っ◕‿◕)っ (っ◕‿◕)っ (っ◕‿◕)っ  ♡ ´･ᴗ･ `♡ ")
 }
 
-func cariDataKode(data tabData, kode string) int {
+func cariDataKode(data tabData, kode int) int {
    // Sequential Search berdasarkan kode
    for i := 0; i < data.total; i++ {
       if data.sparePart[i].kode == kode {
@@ -138,20 +150,20 @@ func cariDataWaktu(data tabData, waktu string) int {
 }
 
 func tampilkanDataDicariKode(data tabData) {
-   var kode string
+   var kode int
    fmt.Println("♡ ´･ᴗ･ `♡  (っ◕‿◕)っ (っ◕‿◕)っ (っ◕‿◕)っ (っ◕‿◕)っ  ♡ ´･ᴗ･ `♡")
    fmt.Println("Pencarian Kode")
    for true {
-      fmt.Print("Kode barang: ")
+      fmt.Print("Kode sparepart: ")
       fmt.Scan(&kode)
       if cariDataKode(data, kode) != -1 {
-         fmt.Println("Nama barang:", data.sparePart[cariDataKode(data, kode)].nama)
-         fmt.Println("Jumlah barang:", data.sparePart[cariDataKode(data, kode)].jumlah)
-         fmt.Println("Harga barang:", data.sparePart[cariDataKode(data, kode)].harga)
+         fmt.Println("kode sparepart:", data.sparePart[cariDataKode(data, kode)].kode)
+         fmt.Println("Nama Pelanggan:", data.pelanggan[cariDataKode(data, kode)].nama)
+         fmt.Println("Sparepart yang dibeli:", data.sparePart[cariDataKode(data, kode)].nama)
          fmt.Println("")
       } else {
          fmt.Println("Data tidak ditemukan")
-         break
+         return
       }
    }
    fmt.Println("♡ ´･ᴗ･ `♡  (っ◕‿◕)っ (っ◕‿◕)っ (っ◕‿◕)っ (っ◕‿◕)っ  ♡ ´･ᴗ･ `♡")
@@ -162,31 +174,31 @@ func tampilkanDataDicariWaktu(data tabData) {
 
    fmt.Println("Pencarian Waktu")
    for true {
-      fmt.Print("Waktu: ")
+      fmt.Print(": ")
       fmt.Scan(&waktu)
       if cariDataWaktu(data, waktu) != -1 {
          fmt.Println("Nama Pelanggan:", data.pelanggan[cariDataWaktu(data, waktu)].nama)
          fmt.Println("Kode Pelanggan:", data.pelanggan[cariDataWaktu(data, waktu)].kode)
-         fmt.Println("Waktu:", data.pelanggan[cariDataWaktu(data, waktu)].waktu)
+         fmt.Println("bulan :", data.pelanggan[cariDataWaktu(data, waktu)].waktu)
          fmt.Println("")
       } else {
          fmt.Println("Data tidak ditemukan")
-         break
+         return
       }
    }
 }
 
 func sortJumlahSparepart(data *tabData) {
    for i := 0; i < (*data).total-1; i++ {
-      max := i
+      idx := i
       for j := i + 1; j < (*data).total; j++ {
-         if (*data).sparePart[max].jumlah < (*data).sparePart[j].jumlah {
-            max = j
+         if (*data).sparePart[idx].jumlah < (*data).sparePart[j].jumlah {
+            idx = j
          }
       }
       temp := (*data).sparePart[i]
-      (*data).sparePart[i] = (*data).sparePart[max]
-      (*data).sparePart[max] = temp
+      (*data).sparePart[i] = (*data).sparePart[idx]
+      (*data).sparePart[idx] = temp
    }
    fmt.Println("♡ ´･ᴗ･ `♡  (っ◕‿◕)っ (っ◕‿◕)っ (っ◕‿◕)っ (っ◕‿◕)っ  ♡ ´･ᴗ･ `♡")
    fmt.Println("Urutan data berdasarkan jumlah spare-part paling sering diganti")
@@ -197,83 +209,83 @@ func sortJumlahSparepart(data *tabData) {
 }
 
 func hapusDataPelanggan(data *tabData) {
-   var kode string
+   var kode int
    fmt.Println("♡ ´･ᴗ･ `♡  (っ◕‿◕)っ (っ◕‿◕)っ (っ◕‿◕)っ (っ◕‿◕)っ  ♡ ´･ᴗ･ `♡")
    fmt.Println("Hapus data berdasarkan kode")
    for true {
-      fmt.Print("Kode barang: ")
+      fmt.Print("Kode pelanggan: ")
       fmt.Scan(&kode)
       if cariDataKode(*data, kode) != -1 {
          (*data).pelanggan[cariDataKode(*data, kode)] = (*data).pelanggan[(*data).total-1]
          (*data).total--
          fmt.Println("Data berhasil dihapus")
-         break
+         return
       } else {
          fmt.Println("Data tidak ditemukan")
-         break
+         return
       }
    }
    fmt.Println("♡ ´･ᴗ･ `♡  (っ◕‿◕)っ (っ◕‿◕)っ (っ◕‿◕)っ (っ◕‿◕)っ  ♡ ´･ᴗ･ `♡")
 }
 
 func hapusDataTransaksi(data *tabData) {
-   var kode string
+   var kode int
    fmt.Println("♡ ´･ᴗ･ `♡  (っ◕‿◕)っ (っ◕‿◕)っ (っ◕‿◕)っ (っ◕‿◕)っ  ♡ ´･ᴗ･ `♡")
    fmt.Println("Hapus data berdasarkan kode")
    for true {
-      fmt.Print("Kode barang: ")
+      fmt.Print("Kode transaksi: ")
       fmt.Scan(&kode)
       if cariDataKode(*data, kode) != -1 {
          (*data).transaksi[cariDataKode(*data, kode)] = (*data).transaksi[(*data).total-1]
          (*data).total--
          fmt.Println("Data berhasil dihapus")
-         break
+         return
       } else {
          fmt.Println("Data tidak ditemukan")
-         break
+         return
       }
    }
    fmt.Println("♡ ´･ᴗ･ `♡  (っ◕‿◕)っ (っ◕‿◕)っ (っ◕‿◕)っ (っ◕‿◕)っ  ♡ ´･ᴗ･ `♡")
 }
 
 func hapusDataSparepart(data *tabData) {
-   var kode string
+   var kode int
    fmt.Println("Hapus data berdasarkan kode")
    for true {
-      fmt.Print("Kode barang: ")
+      fmt.Print("Kode sparepart: ")
       fmt.Scan(&kode)
       if cariDataKode(*data, kode) != -1 {
          (*data).sparePart[cariDataKode(*data, kode)] = (*data).sparePart[(*data).total-1]
          (*data).total--
          fmt.Println("Data berhasil dihapus")
-         break
+         return
       } else {
          fmt.Println("Data tidak ditemukan")
-         break
+         return
       }
    }
 }
 func editDataSparepart(data *tabData) {
-   var kode string
+   var kode int
    fmt.Println("♡ ´･ᴗ･ `♡  (っ◕‿◕)っ (っ◕‿◕)っ (っ◕‿◕)っ (っ◕‿◕)っ  ♡ ´･ᴗ･ `♡")
    fmt.Println("Edit data Spare-Part")
-   fmt.Print("Masukkan kode barang yang akan diedit: ")
+   fmt.Print("Masukkan kode Spare-Part yang akan diedit: ")
    fmt.Scan(&kode)
 
    index := cariDataKode(*data, kode)
    if index != -1 {
       fmt.Println("Data saat ini:")
-      fmt.Println("Kode barang:", data.sparePart[index].kode)
-      fmt.Println("Nama barang:", data.sparePart[index].nama)
-      fmt.Println("Jumlah barang:", data.sparePart[index].jumlah)
-      fmt.Println("Harga barang:", data.sparePart[index].harga)
+      fmt.Println("Kode Spare-Part:", data.sparePart[index].kode)
+      fmt.Println("Nama Spare-Part:", data.sparePart[index].nama)
+      fmt.Println("Jumlah Spare-Part:", data.sparePart[index].jumlah)
+      fmt.Println("Harga Spare-Part:", data.sparePart[index].harga)
       fmt.Println("")
 
-      fmt.Print("Masukkan nama barang baru: ")
+      fmt.Print("Masukkan nama Spare-Part baru: ")
       fmt.Scan(&data.sparePart[index].nama)
-      fmt.Print("Masukkan jumlah barang baru: ")
+      fmt.Print("Masukkan jumlah Spare-Part baru: ")
       fmt.Scan(&data.sparePart[index].jumlah)
-      fmt.Print("Masukkan harga barang per item baru: ")
+      fmt.Print("Masukkan harga Spare-Part per item baru: ")
       fmt.Scan(&data.sparePart[index].harga)
 
       fmt.Println("Data berhasil diupdate")
@@ -284,7 +296,7 @@ func editDataSparepart(data *tabData) {
 }
 
 func editDataPelanggan(data *tabData) {
-   var kode string
+   var kode int
    fmt.Println("Edit data Pelanggan")
    fmt.Print("Masukkan kode pelanggan yang akan diedit: ")
    fmt.Scan(&kode)
@@ -309,7 +321,7 @@ func editDataPelanggan(data *tabData) {
 }
 
 func editDataTransaksi(data *tabData) {
-   var kode string
+   var kode int
    fmt.Println("Edit data Transaksi")
    fmt.Print("Masukkan kode transaksi yang akan diedit: ")
    fmt.Scan(&kode)
@@ -399,3 +411,4 @@ func main() {
       fmt.Println("")
    }
 }
+
